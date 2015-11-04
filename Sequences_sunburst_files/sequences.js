@@ -11,6 +11,7 @@ var b = {
 // Mapping of step names to colors.
 var colors = {
   "women" : "purple",
+  "URM" : "gold",
   "men":  "green",
   "postdoc": "#5687d1",
   "fellowship": "#7b615c",
