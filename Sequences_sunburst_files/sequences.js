@@ -20,13 +20,15 @@ var colors = {
   "South Asian": "#a173d1",
   "BlackCaribbeanorAfricanLatinoorHispanic": "#ff7f00",
   "PreferNotToSay": "#90c3d4",
-  "EducationOutreachField":"#984ea3",
+  "Education/OutreachField":"#984ea3",
   "Research/TechnicalStaff":"#4daf4a",
   "SouthAsian":"#b2df8a",
   "WhiteOther":"#fad8bb",
   "LatinoHispanic":"#db5123",
   "Industry":"#ad23db",
-  "WhiteLatinoorHispanicIndigenousFirstPeoples":"#FAAC58"
+  "WhiteLatinoorHispanicIndigenousFirstPeoples":"#FAAC58",
+  "Transgender":"#fd00ff",
+  "TenureTrack":"#110196"
 };
 
 // Total size of all segments; we set this later, after loading the data.
@@ -51,7 +53,7 @@ var arc = d3.svg.arc()
 
 // Use d3.text and d3.csv.parseRows so that we do not need to have a header
 // row, and can receive the csv as an array of arrays.
-d3.text("./Sequences_sunburst_files/survey_data.csv", function(text) {
+d3.text("./Sequences_sunburst_files/test.csv", function(text) {
   var csv = d3.csv.parseRows(text);
   var json = buildHierarchy(csv);
   createVisualization(json);
