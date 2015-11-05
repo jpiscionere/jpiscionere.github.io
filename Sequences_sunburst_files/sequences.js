@@ -18,11 +18,15 @@ var colors = {
   "Graduated": "#de783b",
   "Student": "#FF0066",
   "South Asian": "#a173d1",
-  "Black Caribbean or African Latino or Hispanic": "#ff7f00",
+  "BlackCaribbeanorAfricanLatinoorHispanic": "#ff7f00",
   "PreferNotToSay": "#90c3d4",
   "EducationOutreachField":"#984ea3",
   "Research/TechnicalStaff":"#4daf4a",
-  "SouthAsian":"#b2df8a"
+  "SouthAsian":"#b2df8a",
+  "WhiteOther":"#fad8bb",
+  "LatinoHispanic":"#db5123",
+  "Industry":"#ad23db",
+  "WhiteLatinoorHispanicIndigenousFirstPeoples":"#FAAC58"
 };
 
 // Total size of all segments; we set this later, after loading the data.
