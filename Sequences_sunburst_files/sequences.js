@@ -47,7 +47,7 @@ var arc = d3.svg.arc()
 
 // Use d3.text and d3.csv.parseRows so that we do not need to have a header
 // row, and can receive the csv as an array of arrays.
-d3.text("./Sequences_sunburst_files/test.csv", function(text) {
+d3.text("./Sequences_sunburst_files/survey_data.csv", function(text) {
   var csv = d3.csv.parseRows(text);
   var json = buildHierarchy(csv);
   createVisualization(json);
@@ -229,7 +229,7 @@ function drawLegend() {
 
   // Dimensions of legend item: width, height, spacing, radius of rounded rect.
   var li = {
-    w: 75, h: 30, s: 3, r: 3
+    w: 300, h: 70, s: 3, r: 3
   };
 
   var legend = d3.select("#legend").append("svg:svg")
