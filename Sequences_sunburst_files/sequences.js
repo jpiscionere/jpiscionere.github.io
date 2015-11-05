@@ -8,6 +8,29 @@ var b = {
   w: 75, h: 30, s: 3, t: 10
 };
 
+
+
+var seed = 1;
+function random() {
+    var x = Math.sin(seed++) * 10000;
+    return x - Math.floor(x);
+}
+
+current_random_colors = [ ];
+
+function getRandomColor(d) {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(random() * 16)];
+    }
+    d.color = color
+    current_random_colors.push(color);
+    return color;
+}
+
+
+
 // Mapping of step names to colors.
 var colors = {
   "Male" : "#33CC33",
@@ -30,6 +53,7 @@ var colors = {
   "Transgender":"#fd00ff",
   "TenureTrack":"#110196"
 };
+
 
 // Total size of all segments; we set this later, after loading the data.
 var totalSize = 0; 
@@ -74,7 +98,7 @@ function createVisualization(json) {
       .style("opacity", 0);
 
   // For efficiency, filter nodes to keep only those large enough to see.
-  var nodes = partition.nodes(json)
+  nodes = partition.nodes(json)
       .filter(function(d) {
       return (d.dx > 0.005); // 0.005 radians = 0.29 degrees
       });
@@ -85,7 +109,7 @@ function createVisualization(json) {
       .attr("display", function(d) { return d.depth ? null : "none"; })
       .attr("d", arc)
       .attr("fill-rule", "evenodd")
-      .style("fill", function(d) { return colors[d.name]; })
+      .style("fill", getRandomColor)
       .style("opacity", 1)
       .on("mouseover", mouseover);
 
@@ -200,10 +224,11 @@ function updateBreadcrumbs(nodeArray, percentageString) {
 
   entering.append("svg:polygon")
       .attr("points", breadcrumbPoints)
-      .style("fill", function(d) { return colors[d.name]; });
+      .style("fill", function(d) { return d.color;});
 
   entering.append("svg:text")
       .attr("x", (b.w + b.t) / 2)
+      .attr("color", function(d) { return d.color; } )
       .attr("y", b.h / 2)
       .attr("dy", "0.35em")
       .attr("text-anchor", "middle")
