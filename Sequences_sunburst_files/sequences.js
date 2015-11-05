@@ -16,43 +16,49 @@ function random() {
     return x - Math.floor(x);
 }
 
-current_random_colors = [ ];
+colors = {};
+legend_colors = [];
 
 function getRandomColor(d) {
-    var letters = '0123456789ABCDEF'.split('');
-    var color = '#';
-    for (var i = 0; i < 6; i++ ) {
-        color += letters[Math.floor(random() * 16)];
-    }
+    if (!colors[d.name]) {
+	    var letters = '0123456789ABCDEF'.split('');
+    	var color = '#';
+    	for (var i = 0; i < 6; i++ ) {
+        	color += letters[Math.floor(random() * 16)];
+	    }
+	    colors[d.name] = color;
+	    legend_colors.push({key: d.name, value:color});
+	} else {
+		color = colors[d.name];
+	}
     d.color = color
-    current_random_colors.push(color);
-    return color;
+	return color;
 }
 
 
 
 // Mapping of step names to colors.
-var colors = {
-  "Male" : "#33CC33",
-  "White" : "#00CC99",
-  "Female":  "#CC3300",
-  "Postdoc": "#5687d1",
-  "Fellowship": "#7b615c",
-  "Graduated": "#de783b",
-  "Student": "#FF0066",
-  "South Asian": "#a173d1",
-  "BlackCaribbeanorAfricanLatinoorHispanic": "#ff7f00",
-  "PreferNotToSay": "#90c3d4",
-  "Education/OutreachField":"#984ea3",
-  "Research/TechnicalStaff":"#4daf4a",
-  "SouthAsian":"#b2df8a",
-  "WhiteOther":"#fad8bb",
-  "LatinoHispanic":"#db5123",
-  "Industry":"#ad23db",
-  "WhiteLatinoorHispanicIndigenousFirstPeoples":"#FAAC58",
-  "Transgender":"#fd00ff",
-  "TenureTrack":"#110196"
-};
+//var colors = {
+//  "Male" : "#33CC33",
+//  "White" : "#00CC99",
+//  "Female":  "#CC3300",
+//  "Postdoc": "#5687d1",
+//  "Fellowship": "#7b615c",
+//  "Graduated": "#de783b",
+//  "Student": "#FF0066",
+//  "South Asian": "#a173d1",
+//  "BlackCaribbeanorAfricanLatinoorHispanic": "#ff7f00",
+//  "PreferNotToSay": "#90c3d4",
+//  "Education/OutreachField":"#984ea3",
+//  "Research/TechnicalStaff":"#4daf4a",
+//  "SouthAsian":"#b2df8a",
+//  "WhiteOther":"#fad8bb",
+//  "LatinoHispanic":"#db5123",
+//  "Industry":"#ad23db",
+//  "WhiteLatinoorHispanicIndigenousFirstPeoples":"#FAAC58",
+//  "Transgender":"#fd00ff",
+//  "TenureTrack":"#110196"
+//};
 
 
 // Total size of all segments; we set this later, after loading the data.
@@ -88,9 +94,8 @@ function createVisualization(json) {
 
   // Basic setup of page elements.
   initializeBreadcrumbTrail();
-  drawLegend();
-  d3.select("#togglelegend").on("click", toggleLegend);
-
+  //drawLegend();
+  
   // Bounding circle underneath the sunburst, to make it easier to detect
   // when the mouse leaves the parent g.
   vis.append("svg:circle")
@@ -102,6 +107,7 @@ function createVisualization(json) {
       .filter(function(d) {
       return (d.dx > 0.005); // 0.005 radians = 0.29 degrees
       });
+
 
   var path = vis.data([json]).selectAll("path")
       .data(nodes)
@@ -115,6 +121,10 @@ function createVisualization(json) {
 
   // Add the mouseleave handler to the bounding circle.
   d3.select("#container").on("mouseleave", mouseleave);
+
+  drawLegend();
+  d3.select("#togglelegend").on("click", toggleLegend);
+
 
   // Get total size of the tree = value of root node from partition.
   totalSize = path.node().__data__.value;
@@ -227,12 +237,12 @@ function updateBreadcrumbs(nodeArray, percentageString) {
       .style("fill", function(d) { return d.color;});
 
   entering.append("svg:text")
-      .attr("x", (b.w + b.t) / 2)
-      .attr("color", function(d) { return d.color; } )
-      .attr("y", b.h / 2)
-      .attr("dy", "0.35em")
-      .attr("text-anchor", "middle")
-      .text(function(d) { return d.name; });
+    .attr("x", (b.w + b.t) / 2)
+	.attr("color", function(d) { return d.color; } )
+    .attr("y", b.h / 2)
+    .attr("dy", "0.35em")
+    .attr("text-anchor", "middle")
+    .text(function(d) { return d.name; });
 
   // Set position for entering and updating nodes.
   g.attr("transform", function(d, i) {
@@ -267,8 +277,8 @@ function drawLegend() {
       .attr("width", li.w)
       .attr("height", d3.keys(colors).length * (li.h + li.s));
 
-  var g = legend.selectAll("g")
-      .data(d3.entries(colors))
+  g = legend.selectAll("g")
+      .data(legend_colors)
       .enter().append("svg:g")
       .attr("transform", function(d, i) {
               return "translate(0," + i * (li.h + li.s) + ")";
