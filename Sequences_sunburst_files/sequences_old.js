@@ -10,19 +10,15 @@ var b = {
 
 // Mapping of step names to colors.
 var colors = {
-  "Male" : "#33CC33",
-  "White" : "#00CC99",
-  "Female":  "#CC3300",
-  "Postdoc": "#5687d1",
-  "Fellowship": "#7b615c",
-  "Graduated": "#de783b",
-  "Student": "#FF0066",
-  "South Asian": "#a173d1",
-  "Black Caribbean or African Latino or Hispanic": "#ff7f00",
-  "PreferNotToSay": "#ffff33",
-  "EducationOutreachField":"#984ea3",
-  "Research/TechnicalStaff":"#4daf4a",
-  "SouthAsian":"#b2df8a"
+  "women" : "#33CC33",
+  "URM" : "#00CC99",
+  "men":  "#CC3300",
+  "postdoc": "#5687d1",
+  "fellowship": "#7b615c",
+  "research_staff": "#de783b",
+  "tenure_track": "#FF0066",
+  "other": "#a173d1",
+  "end": "#bbbbbb"
 };
 
 // Total size of all segments; we set this later, after loading the data.
@@ -47,7 +43,7 @@ var arc = d3.svg.arc()
 
 // Use d3.text and d3.csv.parseRows so that we do not need to have a header
 // row, and can receive the csv as an array of arrays.
-d3.text("./Sequences_sunburst_files/test.csv", function(text) {
+d3.text("./Sequences_sunburst_files/visit-sequences.csv", function(text) {
   var csv = d3.csv.parseRows(text);
   var json = buildHierarchy(csv);
   createVisualization(json);
