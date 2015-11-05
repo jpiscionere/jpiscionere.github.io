@@ -19,7 +19,7 @@ var colors = {
   "Student": "#FF0066",
   "South Asian": "#a173d1",
   "Black Caribbean or African Latino or Hispanic": "#ff7f00",
-  "PreferNotToSay": "#ffff33",
+  "PreferNotToSay": "#90c3d4",
   "EducationOutreachField":"#984ea3",
   "Research/TechnicalStaff":"#4daf4a",
   "SouthAsian":"#b2df8a"
