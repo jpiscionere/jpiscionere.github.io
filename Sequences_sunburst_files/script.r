@@ -12,7 +12,7 @@ fourth=data$What.Best.Describes.Your.Fourth.Position.Out.of.Grad.School.1
 fifth=data$What.Best.Describes.Your.Fifth.Position.Out.of.Grad.School.1
 df=data.frame(genders,races,graduates,first,second,third,fourth,fifth)
 data_matrix=as.matrix(df)
-a[1:length(genders)]=paste(data_matrix[1:length(genders),1],"-",data_matrix[1:length(genders),2],"-",data_matrix[1:length(genders),3],"-",data_matrix[1:length(genders),4],"-",data_matrix[1:length(genders),5])
+a[1:length(genders)]=paste(data_matrix[1:length(genders),1],"-",data_matrix[1:length(genders),2],"-",data_matrix[1:length(genders),3],"-",data_matrix[1:length(genders),4],"-",data_matrix[1:length(genders),5],"-",data_matrix[1:length(genders),6],"-",data_matrix[1:length(genders),7])
 table(a)
 df=data.frame(table(a))
 write.table(df,file="output_third.txt")
