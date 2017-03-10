@@ -22,7 +22,10 @@ data <- read.csv("http://jpiscionere.github.io/HOPCAT2005TabSep.csv")
 #data=read.csv("../Data/HOPCAT2005TabSep.csv")
 #data=read.table("../Data.txt",head=T)
 df_HIPASS=data.frame(data)
+df_HIPASS$M_HI=2.365*10^5*(df_HIPASS$vel_mom/H0)^2*df_HIPASS$Sint #calculate HI Mass
+df_HIPASS$Distance=df_HIPASS$vel_mom/H0 #use hubble approx. for distance even though astroR has a cosmo calc
 summary(df_HIPASS)
+
 
 
 plot(df_HIPASS$HicatExtl,df_HIPASS$HicatExtb) #try the tab complete if using the GUI or notebook
@@ -33,6 +36,21 @@ df_HIPASS$RA=coords$ra
 df_HIPASS$Dec=coords$dec
 
 df_HIPASS$Morphology
+
+
+frequency<-table(df_HIPASS$Morphology) #table is a very useful command to summarize factors
+summary(frequency)
+frequency=as.data.frame(frequency) #let's turn it into a data frame so we can sort
+frequency=frequency[order(frequency$Freq,decreasing=TRUE),] #sort the whole data frame by the frequency of each morphology
+frequency
+
+frequency$Var1[c(2:11)] #Skipping "XXXXX'
+morphs=frequency$Var1[c(2:11)] #Putting the morph types in a vector
+morphs #checking
+df_Short <- df_HIPASS[df_HIPASS$Morphology %in% morphs, ] #subsetting the data frame to only those galaxies whose morphs are in the vector 
+length(df_Short$Morphology) #checking that the data frame is smaller
+df_Short$Morphology[c(1:100)] #checking that there are only the morphs we want
+qplot(df_Short$Sint,fill=df_Short$Morphology,xlim=c(0,100)) #qplot "quick plot" is a ggplot tool
 
 #this is one approach-- cleaning up the data, but it requires significant prior knowledge 
 df_HIPASS$Morphology_Filtered=df_HIPASS$Morphology
@@ -50,12 +68,14 @@ df_HIPASS$Morphology_Filtered[grepl('S0', df_HIPASS$Morphology)=="TRUE"]="S0"
 df_HIPASS$Morphology[which(df_HIPASS$Morphology=="E")]
 
 
-df_HIPASS$M_HI=2.365*10^5*(df_HIPASS$vel_mom/H0)^2*df_HIPASS$Sint #calculate HI Mass
-df_HIPASS$Distance=df_HIPASS$vel_mom/H0 #use hubble approx. for distance even though astroR has a cosmo calc
-
-
 ggplot(df_HIPASS,aes(M_HI)) + #set up the data
 geom_histogram() #tell it what to plot
+
+ggplot(df_HIPASS,aes(M_HI,fill=Morphology_Filtered)) + #setup the base plot and factoring
+    geom_histogram()  #change the transparency for the curves
+
+
+
 
 ggplot(df_HIPASS,aes(M_HI,color=Morphology_Filtered,fill=Morphology_Filtered)) + #setup the base plot and factoring
     geom_density(alpha=0.1) + #change the transparency for the curves
